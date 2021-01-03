@@ -1,0 +1,838 @@
+\documentclass[7pt,landscape,a4paper]{scrartcl}
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage[landscape]{geometry}
+\usepackage{graphicx}
+\usepackage{sectsty}
+\usepackage{mwe}
+\usepackage{comment}
+\usepackage{lipsum}
+\usepackage{titlesec}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+%format
+\geometry{top=0.1cm,left=0.1cm,right=0.1cm,bottom=0.1cm}
+
+%Define Color
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lightlightgrey}{rgb}{0.89,0.89,0.89}
+\definecolor{b}{RGB}{0, 120, 255}
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkgray}{rgb}{0.4, 0.4, 0.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{editorGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0} % #FF7F00 -> rgb(239, 169, 0)
+\definecolor{editorGreen}{rgb}{0, 0.5, 0} % #007C00 -> rgb(0, 124, 0)
+\definecolor{orange}{rgb}{1,0.45,0.13}		
+\definecolor{olive}{rgb}{0.17,0.59,0.20}
+\definecolor{brown}{rgb}{0.69,0.31,0.31}
+\definecolor{purple}{rgb}{0.38,0.18,0.81}
+\definecolor{lightblue}{rgb}{0.1,0.57,0.7}
+\definecolor{lightred}{rgb}{1,0.4,0.5}
+
+\graphicspath{ {./images/} }
+
+\setkeys{Gin}{width=\linewidth}
+
+% Code Snippets
+\usepackage{courier} %% Sets font for listing as Courier.
+\usepackage{listings}
+
+% CSS
+\lstdefinelanguage{CSS}{
+	keywords={color,background-image:,margin,padding,font,weight,display,position,top,left,right,bottom,list,style,border,size,white,space,min,width, transition:, transform:, transition-property, transition-duration, transition-timing-function},	
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	morestring=[b]",
+	alsoletter={:},
+	alsodigit={-}
+}
+
+% JavaScript
+\lstdefinelanguage{JavaScript}{
+	morekeywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	morecomment=[s]{/*}{*/},
+	morecomment=[l]//,
+	morestring=[b]",
+	morestring=[b]'
+}
+
+\lstdefinelanguage{HTML5}{
+	language=html,
+	sensitive=true,	
+	alsoletter={<>=-},	
+	morecomment=[s]{<!-}{-->},
+	tag=[s],
+	otherkeywords={
+		% General
+		>,
+		% Standard tags
+		<!DOCTYPE,
+		</html, <html, <head, <title, </title, <style, </style, <link, </head, <meta, />,
+		% body
+		</body, <body,
+		% footer
+		<footer, /footer,
+		% Divs
+		</div, <div, </div>, 
+		% Paragraphs
+		</p, <p, </p>,
+		% scripts
+		</script, <script,
+		% More tags...
+		<canvas, </canvas, <svg, <rect, <animateTransform, </rect, </svg, <video, <source, <iframe, </iframe, </video, <image, </image, <header, </header, <article, </article, <a, </a, <img, </img, <span, </span, <ul, </ul, <li, </li, <input, <br, <form, <h2, <h1, <h3, <button, <nav, <link, <main, <aside, <style, </style, <label, </label, </form, </button, <figure, </figure, <figcaption, </figcaption, <audio, </audio, </h3
+	},
+	ndkeywords={
+		% General
+		=,
+		% HTML attributes
+		charset=, src=, id=, width=, height=, style=, type=, rel=, href=,
+		% SVG attributes
+		fill=, attributeName=, begin=, dur=, from=, to=, poster=, controls=, x=, y=, repeatCount=, xlink:href=,
+		% properties
+		margin:, padding:, background-image:, border:, top:, left:, position:, width:, height:, margin-top:, margin-bottom:, font-size:, line-height:,
+		% CSS3 properties
+		transform:, -moz-transform:, -webkit-transform:,
+		animation:, -webkit-animation:,
+		transition:,  transition-duration:, transition-property:, transition-timing-function:,
+	}
+}
+
+\lstdefinestyle{htmlcssjs} {%
+	% General design
+	%  backgroundcolor=\color{editorGray},
+	basicstyle={\footnotesize\ttfamily},
+	aboveskip=0mm,
+	belowskip=0mm,   
+	frame=none,
+	% line-numbers
+	%xleftmargin={0.6cm},
+	%numbers=left,
+	stepnumber=1,
+	firstnumber=1,
+	numberfirstline=true,	
+	% Code design
+	identifierstyle=\color{black},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywordstyle=\color{editorGreen}\bfseries,
+	stringstyle=\color{editorOcher}\ttfamily,
+	commentstyle=\color{brown}\ttfamily,
+	% Code
+	language=HTML5,
+	alsolanguage=JavaScript,
+	alsodigit={.:;},	
+	tabsize=2,
+	showtabs=false,
+	showspaces=false,
+	showstringspaces=false,
+	extendedchars=true,
+	breaklines=true,
+	% German umlauts
+	literate=%
+	{Ö}{{\"O}}1
+	{Ä}{{\"A}}1
+	{Ü}{{\"U}}1
+	{ß}{{\ss}}1
+	{ü}{{\"u}}1
+	{ä}{{\"a}}1
+	{ö}{{\"o}}1
+}
+
+
+% Define Section Format
+\titleformat{name=\section}[block]
+{\sffamily\normalsize}
+{}
+{0pt}
+{\colorsection}
+\titlespacing*{\section}{0pt}{0.3ex}{0.3ex}
+
+\newcommand{\colorsection}[1]{%
+	\colorbox{ForestGreen!40}{\parbox{0.235\textwidth}{\color{black}\thesection\ #1}}}
+
+
+% Define Subsection Format
+\titleformat{name=\subsection}[block]
+{\sffamily\small}
+{}
+{0pt}
+{\colorsubsection}
+\titlespacing*{\subsection}{0pt}{0.3ex}{0.3ex}
+
+\newcommand{\colorsubsection}[1]{%
+	\colorbox{yellow!50}{\parbox{0.235\textwidth}{\color{black}\thesubsection\ #1}}}
+
+% Define Subsubsection Format
+\titleformat{name=\subsubsection}[block]
+{\sffamily\small}
+{}
+{0pt}
+{\colorsubsubsection}
+\titlespacing*{\subsubsection}{0pt}{0.3ex}{0.3ex}
+
+\newcommand{\colorsubsubsection}[1]{%
+	\colorbox{BrickRed!40}{\parbox{0.235\textwidth}{\color{black}\thesubsubsection\ #1}}}
+
+% -----------------------------------------------------------------------
+\begin{document}
+	\setlength{\columnseprule}{0.4pt}
+	\footnotesize
+\begin{multicols*}{4}
+\section{HTML (HyperText Markup Language)}
+	\textcolor{b}{\textbf{Auszeichnungssprache} (markup language):}\\
+	ist eine maschinenlesbare Sprache für die Gliederung und Formatierung von Texten und anderen Daten.\\
+	\textbf{Bsp:} HTML, Markdown, Rich Text Format, LaTeX, XML\\
+	$\rightarrow$ Gibt die Definition vor, wie Strukturen definieren werden müssen, damit diese korrekt interpretiert werden.\\
+%	\textbf{Parsing:}\\
+%	\includegraphics{parsing.png}\\
+	\textcolor{b}{\textbf{Tag:}} Markiert Start und Ende eines HTML Elements\\
+	\textcolor{b}{\textbf{Element:}} Repräsentiert eine Struktur oder einen Inhalt\\
+	\textcolor{b}{\textbf{Attribut/Attribute:}} Definiert Eigenschaft eines Elements\\
+	\textcolor{b}{\textbf{Kommentar:}} Start: $<!--$ Ende: $-->$\\
+	\textcolor{b}{\textbf{Void Elemente:}} Kein Content. Kein End-Tag. End-Slash erlaubt. z.B: \textbf{br, hr, img, input, link, meta}\\
+	\textcolor{b}{\textbf{HTML Entities:}} \textbf{\&} = \&amp; $<$ = \&lt; $>$ = \&gt; $"$ = \&quot;
+\subsection{HTML-Struktur \& Encoding}
+\begin{lstlisting}[style=htmlcssjs]
+<!DOCTYPE html> //Definiert wie der Browser den Text interpretiert und rendert.
+<html lang="en"> //Root-Element des Dokuments, 
+<head> //Meta-Informationen, wird nicht dargestellt
+	<meta charset="UTF-8"> // in ersten 1024 Byte
+	<title>Title</title> //Zwingend notwendig
+</head>
+<body> //Definiert den sichtbaren Inhalt der Webseite
+	Hello World
+</body> <footer> </footer> </html>
+\end{lstlisting}
+	\textcolor{b}{\textbf{Warum Charset?}}\\
+	Der Browser kann nicht erkennen wie der Byte-Stream zu interpretieren ist. \textbf{Problem:} UTF-8 hat eine variable Länge (8 16 24 oder 32 Bits). \textbf{Ohne Angabe:} Default pro Region wird ausgewählt z.B. ISO 8859-1\\
+	$\rightarrow$ File muss mit entsprechendem Encoding gespeichert werden.
+	$\rightarrow$ Named entities: Umlaut wie z.B. \&ouml = ö
+\subsection{Content-Model}
+\begin{minipage}{0.48\linewidth}
+	\includegraphics{content_model_2}
+\end{minipage}
+\begin{minipage}{0.52\linewidth}
+	\textbf{Tag Omission:}\\
+	Sagt ob ein Tag (Start/End)\\
+	- vorhanden sein muss,\\
+	- weggelassen werden kann\\
+	- oder nicht vorhanden sein darf.
+\end{minipage}
+\subsection{Wichtigste HTML-Elemente}
+\begin{lstlisting}[style=htmlcssjs]
+<a href="http://www.google.com">Link</a>
+<img src="picture.png" alt="Description">
+<input type="password" value="1234">
+\end{lstlisting}
+	\textbf{Am häufigsten benutzte Tags:}\\
+	html, head, body, title, meta, a, div, link, script, img span, ul\\
+	li, p, style, input, br, form, h2, h1, iframe, h3, button, footer\\
+	header, nav\\
+	\textcolor{b}{\textbf{label/input:}}\\
+	Vor einem input Element immer ein dazugehörendes label (mit for=$"$input id$"$) definieren. \\
+	\includegraphics[width=0.97\linewidth]{html_tags.png}\\
+	\textcolor{b}{\textbf{Semantische Elemente (HTML5):}} main, header, footer, nav, figure, figcaption, article, section, aside, details\\
+	\textcolor{b}{\textbf{Empfohlene Seiten-Struktur:}}
+\begin{lstlisting}[style=htmlcssjs]
+<body><header><nav><main><header><nav><aside><footer>
+\end{lstlisting}
+\section{CSS (Cascading Style Sheets)}
+	\textcolor{b}{\textbf{Vorteile:}}
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Klare Trennung zwischen Struktur und Styling
+		\item Ermöglicht es, auf verschiedene Ausgabegrössen zu reagieren.
+		\item Unterschiedliche Styles für verschiedene Ausgabemedien möglich
+		$\rightarrow$ \textbf{Print, Screen}
+		\item Können auf Gruppen von Elementen angewendet werden
+		\item Style-Definitionen können in separate Dateien ausgelagert werden
+	\end{itemize}
+	\textcolor{b}{\textbf{Inline Styling:}} Sytle Deklaration in Tag. (Für Debuggen)
+\begin{lstlisting}[style=htmlcssjs]
+<span style="background: green; color: pink">
+\end{lstlisting}
+	\textcolor{b}{\textbf{Style-Regeln:}} style Tag im Head (Deguggen, Produktion)
+\begin{lstlisting}[style=htmlcssjs]
+<head><style> span{background: green;} </style></head>
+\end{lstlisting}
+	\textcolor{b}{\textbf{CSS einbinden:}} link Tag im Head (Standard)
+\begin{lstlisting}[style=htmlcssjs]
+<head><link rel="stylesheet" href="file.css" media="screen"></head>
+\end{lstlisting}
+	$\rightarrow$ Im Link Tag kann media (print, screen) angegeben werden
+	\textcolor{b}{\textbf{Kommentar:}} /* comment */\\
+	\textcolor{b}{\textbf{CSS-Deklaration:}} Property:Value; (z.B. color: red;)
+\subsection{CSS Selektoren}
+	Sind \textbf{Case-Sensitive.} Werte von id und class-Attributen werden klein geschrieben.\\ 
+	Der Selektor einer Style-Regel definiert welche HTML-Elements die Style-Deklarationen der Style-Regel angewendet werden.\\
+	\begin{tabular}{|l|l}
+		\hline
+		\textbf{Selektor-Typ} & \textbf{Beispiel}\\
+		\hline
+		Typ (type) & a \{  \}\\
+		\hline
+		Universal & * \{  \}\\
+		\hline
+		ID & \#container \{  \}\\
+		\hline
+		Klassen (class) & .my-class \{  \}\\
+		\hline
+		Attribut (attribute) & a$[$ href $]$ \{  \}\\
+		\hline
+		Pseudo-Element & a::first-line \{  \}\\
+		& .question::after \{content: '?';\}\\
+		& p::selection \{background: gray;\}\\
+		\hline
+		Pseudo-Klasse & div:hover \{  \};\\
+		& article:not(.my-class) \{  \}\\
+		\hline
+		Compound & div.box \{alle div mit class box\}\\
+		\hline
+		Nachfahren (decendant) & p h1 \{irgendwann in p\}\\
+		\hline
+		Kind (child) & p $>$ h1 \{p ist direkter parent\}\\
+		\hline Angrenzende Geschwister & p + a \{a direkt nach p\}\\
+		\hline Allgemeine Geschwister & p {\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}} a \{irgendwann auf Ebene\}\\
+		\hline
+	\end{tabular}
+\subsection{Developper Tools}
+	Können unter Rendering print simulieren\\
+	\textbf{Die Dev-Console ermöglicht:}
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Disable/Re-enable Deklaration(en) einer Regel
+		\item Neue Deklaration(en) in einer Regel
+		\item Neue Deklaration(en) für das selektierte Element
+		\item Neue Regel mit neuen Deklarationen
+	\end{itemize}
+\subsection{Box-Model}
+	Jedes Element besteht aus: \textcolor{b}{Inhalt} (content), \textcolor{b}{Innenabstand} (padding), \textcolor{b}{Rahmen} (border) \& \textcolor{b}{Aussenabstand} (margin)\\
+	\begin{minipage}{0.4\linewidth}
+		\includegraphics{box_model.png}
+	\end{minipage}
+	\begin{minipage}{0.6\linewidth}
+	\textbf{Grösse von Element:}\\
+	Content+Padding+Border+Margin\\
+	\textbf{Background:}\\
+	Auf Content + padding angewendet\\
+	\textbf{Zentrieren:}\\
+	margin-left: auto; margin-right: auto;
+\end{minipage}
+	\textcolor{b}{\textbf{Eigenschaften Border:}}
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Breite des Rahmens
+		\item Jede Kante kann einzel formatiert werden
+		\item Abrunden möglich
+		\item Bild als rahmen-Hintergrund verwendbar
+		\item Border wird der Grösse des Elements hinzugefügt/addiert
+	\end{itemize}
+	\textcolor{b}{\textbf{Eigenschaften Outline:}}
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Wird \textbf{nicht} der Grösse des Elements hinzugefügt
+		\item Gewisse Elemente ignorieren den Border (z.B. Checkbox); Outline funktioniert aber
+		\item Viel weniger Optionen als Border
+	\end{itemize}
+\subsection{Display, Position, Float, Kaskade, Einheiten}
+	\textcolor{b}{\textbf{Display:}}\\
+	\textbf{block:} Füllt die ganze Zeile. \textbf{inline-block:} Nimmt nur den notwendigen Platz ein. \textbf{inline:} Ignoriert width \& height. \textbf{none:} Entfernt Element. \textbf{visibility:hidden oder opacity: 0:} Erzeugt WhiteSpace (Platz wird reserviert)\\
+	\textcolor{b}{\textbf{Position:}}\\
+	\textbf{absolute:} Element überlagert. \textbf{fixed:} immer am gleichem Ort. \textbf{relative:} Platz im Fluss bleibt reserviert. \textbf{static:} Standard-Positionierung im Fluss\\
+	\textcolor{b}{\textbf{Float:}}\\
+	Um Text um ein Bild fliessen zu lassen. (float:left; float:right;)\\
+	\textcolor{b}{\textbf{Kaskade (Cascading):}}\\
+	Ist ein Algorithmus, um Style-Quellen zu verschmelzen.
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Deklarationen im Browser-Stylesheet (kleinste Priorität)
+		\item Deklarationen des Benutzers
+		\item Deklarationen des Autors
+		\item Wichtige Deklarationen (mit !important) des Autors
+		\item Wichtige Deklarationen (mit !important) des Benutzers
+	\end{itemize}
+	\textcolor{b}{\textbf{Einheiten:}}\\
+	\textbf{px:} Basis-Einheit. \textbf{em:} Relativ zu Parent Schriftgrösse. \textbf{rem:} Relativ zu Root-Element (html).
+\subsection{Tabellen, Formulare, Bilder \& Medien}
+	\begin{minipage}{0.53\linewidth}
+		\textcolor{b}{\textbf{Table:}}\\
+		\\
+		\includegraphics{table.png}
+	\end{minipage}
+	\begin{minipage}{0.48\linewidth}
+		Table besteht aus:
+		\begin{itemize}[topsep=0pt, leftmargin=3mm]
+			\setlength\itemsep{-0.3em}
+			\item Table <table>
+			\item Caption <caption>
+			\item Column Group <colgroup>
+			\item Column <col>
+			\item Table Head <thead>
+			\item Table Body <tbody>
+			\item Table Footer <tfoot>
+			\item Table Row <tr>
+			\item Table Data Cell <td>
+			\item Table Header Cell <th>
+		\end{itemize}
+	\end{minipage}
+	\textcolor{b}{\textbf{Form:}}
+\begin{lstlisting}[style=htmlcssjs]
+<form action="http://localhost:5002/submit" method="get">
+	<label for="message"><span>Message: </span>
+		<input id="message" name="message" type="text" placeholder="Your Message Here" required>
+	</label>
+	<button>Send Data</button>
+</form>
+\end{lstlisting}
+	\textbf{Wichtige form Attribute:}\\
+	\textcolor{b}{action:} URL zu der die Daten geschickt werden\\
+	\textcolor{b}{method} \textbf{get:} Daten werden in der URL/Query-String gesendet, \textbf{post:} Daten werden im Request-Body gesendet.
+	\textbf{Wichtigste Form-Sub-Elemente:}\\
+	label: Anschrift\\
+	fieldset: Gruppierung von Elementen (Sub Element \textcolor{b}{legend})\\
+	select: Auswahl (Sub-Element \textcolor{b}{option})\\
+	datalist: Vordefinierte Antwort-Optionen\\
+	textarea: Mehrzeilige Texte\\
+	\textbf{Wichtigste Input-Typen:} button, checkbox, date, email, hidden, month, number, password, radio, range, number, text, week\\
+	\textbf{Pseudoklassen:} :invalid, :valid, :focus, :placeholder-shown, :default, :in-range, :disabled, :enabled\\
+	\textbf{Pseudo-Element:} ::placeholder\\
+	\textcolor{b}{\textbf{Bilder \& Medien}}
+\begin{lstlisting}[style=htmlcssjs]
+// Bilder
+<figure> <img src="./cat.jpg" alt="Elvis" >
+	<figcaption>Elvis the HSR Cat</figcaption> </figure>
+//Audio
+<audio src="./song.ogg" controls></audio>
+//Video
+<video src="./example.mp4" controls poster="./bild.jpg">
+	<a href="./example.mp4">Download video</a></video>
+\end{lstlisting}
+\section{JavaScript (ECMAScript)}
+\begin{lstlisting}[style=htmlcssjs]
+<script> alert("TEST"); </script> //Head
+<script src="myFile.js"> </script> //Body
+<button onclick="alert('hi hsr')"> //Body
+\end{lstlisting}
+	\textcolor{b}{\textbf{Primitive Typen:}} string, number, boolean, null, undefined, symbol $\rightarrow$ \textbf{Compared by value}\\
+	\textcolor{b}{\textbf{Objekte:}} Plain Objekts, Arrays, Regular Expressions, Functions $\rightarrow$ \textbf{Copmared by reference}
+\subsection{PRIMITIVES}
+	\textcolor{b}{\textbf{Falsy/Truthy:}}\\
+	\textbf{False:} false, 0 (zero), $"$$"$ (empty string), null, undefined, NaN\\
+	\textbf{True:} Alles andere: true, "0" (string), $"$false$"$ (string), [], \{\} etc.\\
+	\textcolor{b}{\textbf{Numbers:}}\\
+	Sind immer Floats (Gleitkommazahl).\\
+	\textbf{Spezialfall:} NaN (0/0) $\rightarrow$ isNaN() zum prüfen, Infinity (x/0 oder sehr hohe Zahl, kann auch negativ sein)\\
+	\textbf{Jeder Wert kann in Typ Number umgewandelt werden:}\\
+	+(true)==1, +(false)==0, Number(true)==1,\\
+	Number(null)==0, Number($"$abc")=>NaN, +("123")==123\\
+	parseInt($"$string")/parseFloat($"$string"): Bis zum ersten Fehler 
+	\textcolor{b}{\textbf{String}}\\
+	length,	slice(), trim(), includes, indexOf.\\
+	String Typ wird mit Backquotes umschlossen. Innerhalb von \$\{...\} wird JavaScript interpretiert. z.B.
+\begin{lstlisting}[style=htmlcssjs]
+console.log(`Mein Name ist: ${name}`);
+\end{lstlisting}
+	\textcolor{b}{\textbf{Rechnen:}}\\
+	Punkt vor Strich!! String + Value = Value + String = String\\
+	\textcolor{b}{\textbf{Vergleichen:}}\\
+	=== verhindert Typenumwandlung. Für Objekte nicht nötig.
+	Variable ist \textcolor{b}{undefined}, wenn nicht definiert, oder initialisiert.\\
+	Variable ist \textcolor{b}{null}, wenn ein Objekt erwartet wird.\\
+	\textbf{Achtung:} undefined == null => true\\
+	\textcolor{b}{\textbf{Arrays:}}\\
+	Haben keine fixe Länge, Index beginnt bei 0.
+\begin{lstlisting}[style=htmlcssjs]
+const arr = ["a","b","c"]; //über arr Iterieren
+//Klassisch:
+for (let i=0; i < arr.length; ++i) {
+	console.log("for", arr[i]); }
+//For-In:
+for(let x in arr) {
+	console.log("for in", x + ":" + arr[x]); }
+//For-Of
+for (let y of arr) {
+	console.log("for of", y); }
+//For-Each:
+arr.forEach((elem,index))=>console.log(index+":"+elem);
+\end{lstlisting}
+	\textcolor{b}{\textbf{Funktionen:}}\\
+	Können in \textcolor{b}{Variable} gespeichert werden, als \textcolor{b}{Parameter} mitgegeben werden, von Funktionen \textcolor{b}{zurückgegeben} werden.\\
+	Haben \textcolor{b}{offene Parameterliste} (mehr oder weniger als deklariert)\\
+	Besitzen \textcolor{b}{Properties}, erzeugen einen eigenen \textcolor{b}{Scope}. 
+\begin{lstlisting}[style=htmlcssjs]
+//Funktionen können definiert werden
+function hallo(){
+	console.log("Hallo"); } hallo();
+//Funktionen können einer Variable zugewiesen werden
+const hallo2 = function() {
+	console.log("Hallo2"); }; hallo2();
+//Funktionen können einer Variable zugewiesen werden
+const foo = hallo; foo();
+\end{lstlisting}
+\section{DOM (Document Object Model)}
+	\textcolor{b}{\textbf{DOM:}}\\
+	Ist eine Programmier-Schnittstellendefinition für Dokumente (XML/HTML). $\rightarrow$ Repräsentiert das HTML-Dokument als \textcolor{b}{Baumstruktur}. Jeder Node im Baum ist ein \textbf{Objekt} welches ein Stück vom Dokument repräsentiert. $\rightarrow$ Das DOM definiert Methoden für das \textcolor{b}{Traversieren} und \textcolor{b}{Manipulieren} des Baumes.\\
+	\textcolor{b}{\textbf{Window:}}\\
+	Globale Variablen liegen auf dem Window. Stellt globale Objekte zur Verfügung wie \textcolor{b}{Console, History, Document etc.}\\
+	\textcolor{b}{\textbf{Document:}}\\
+	$\rightarrow$ Einstiegspunkt für DOM Tree. Bietet DOM-Such \& Manipulations und weitere Methoden an.\\
+	\textcolor{b}{\textbf{DOM Suche/Selektion:}}
+\begin{lstlisting}[style=htmlcssjs]
+// Klassisch
+.getElementById("idString")
+.getElementsByName("nameString") //for Form-Elements
+.getElementsByClassName("singleClassString") //Collection
+.getElementsByTagName("tagString") // Collection
+// Modern
+.querySelector("selectorString") // first match
+.querySelectorAll("selectorString") // NodeList
+.closest("selectorString") // first matching ancestor
+.matches("selectorString") // boolean
+\end{lstlisting}
+	Wenn mehrere Elemente zurückgegeben werden, ist dies in Form einer \textbf{HTMLCollection}:\\
+	\textcolor{b}{Auswirkung:} Array Funktionen funktionieren nicht\\
+	$\rightarrow$ Kein forEach, map, filter\\
+	\textcolor{b}{Looping möglich:} for (elem of HTMLCollection)\{...\}\\
+	$\rightarrow$ Selbes gilt für NodeList, trotzdem Möglich:
+\begin{lstlisting}[style=htmlcssjs]
+Array.from(navItems)
+	.filter((el, i) => i % 2 === 0)
+	.forEach(el => el.style.background = "green");
+\end{lstlisting}
+	\textcolor{b}{\textbf{DOM-Navigation:}}
+\begin{lstlisting}[style=htmlcssjs]
+<node>.parentElement
+<node>.childNodes //auch text-Nodes und Kommentare
+<node>.children //nur die Nodes vom Typ HTMLElement
+<node>.firstChild //auch text-Nodes und Kommentare
+<node>.firstElementChild //erstes HTMLElement
+<node>.nextSibling //nächstes Geschwister-NODE
+<node>.nextElementSibling //nächstes Geschwister-Element
+\end{lstlisting}
+\subsection{DOM-Manipulation}
+	\textcolor{b}{\textbf{EventTarget:}} Können Events empfangen und/oder senden\\
+	\textbf{Methoden:} addEventListener(), removeEventListener()\\
+	\textcolor{b}{\textbf{Node:}} Basis Interface für finden, traversieren\\
+	\textbf{Properties:} childNodes, firstChild, nextSibling\\
+	\textbf{Methoden:} appendChild(), removeChild()\\
+	\textcolor{b}{\textbf{Element:}} Basis für alle Elemente im Tree. (defini. Funktionen)\\
+	\textbf{Properties:} id, className/classList, innerHTML, attributes\\
+	\textbf{Methoden:} get/set/toggle Attribute(), closest(), queryselector, querySelectorAll, insertAdjacentHTML(), scrollTo()\\
+	\textcolor{b}{\textbf{Element (ParentNode):}} Implementiert Parent \& ChildNode\\
+	\textbf{Properties:} children, firstElementChild, lastElementChild\\
+	\textbf{Methoden:} append(), remove()\\
+	\textcolor{b}{\textbf{HTMLElement:}} Definiert HTML-Attribute \& weitere Events\\
+	\textbf{Properties:} dataset, style, hidden\\
+	\textcolor{b}{\textbf{Neuen Node/Element erstellen:}}
+\begin{lstlisting}[style=htmlcssjs]
+document.createElement("tagName") //Element mit TagName
+document.createTextNode("content") //TextNode mit Inhalt
+document.createDocumentFragment() //wird bei Anhängen an Parent (z.B. appendChild) entfernt. Kinder bleiben
+\end{lstlisting}
+	\textbf{innerHTML:} Liest oder schreibt den Inhalt vom Element als HTML Code. \textbf{innerText:} Beinhaltet nur sichtbaren Text vom Element. \textbf{textContent:} Kompletter Text vom Element.
+\begin{lstlisting}[style=htmlcssjs]
+// classList vs className:
+<div id="el" class="box alert important"></div>
+console.log(document.getElementById("el").className); // box alert important
+console.log(document.getElementById("el").classList); // DOMTokenList(3) ["box", "alert", "important"]
+\end{lstlisting}
+\subsection{DOM-Events}
+	Events ermöglichen auf Ereignisse zu reagieren. z.B. Button betätigen, Fenster verkleinert, Mauszeiger verlässt Bereich, etc.\\
+	\textcolor{b}{\textbf{Events:}}
+\begin{lstlisting}[style=htmlcssjs]
+btn.addEventListener("keydown", (event) => console.log(event.key)); //Event prüfen (auch change)
+btn.addEventListener("click", myFunc);
+btn.removeEventListener("click", myFunc);
+btn.addEventListener.onlick = () => alert("1");
+btn.addEventListener.onclick = myFunc;
+\end{lstlisting}
+	\textcolor{b}{\textbf{Event Phasen:}}\\
+	\textbf{1. Capture Phase:} Event durchläuft DOM Tree von Root zu Leaf, jedes Element kann reagieren.\\
+	\textbf{2. Target Phase:} Das Event wird auf dem Ziel ausgelösst\\
+	\textbf{3. Bubble Phase:} Das Event durchläuft den DOM Tree vom Leaf zum Root. (nicht jedes Element)\\
+	\textcolor{b}{\textbf{Event-Eigenschaften:}}\\
+	\textbf{target:} Zeigt auf das target-Element vom Event\\
+	\textbf{currentTarget:} Zeigt auf das aktuelle (registrierte) Element\\
+	\textbf{stopPropagation():} Event von Bubbling/Capturing abhalten\\
+	\textbf{preventDefault():} Verhindert Default-Aktionen\\
+	\textcolor{b}{\textbf{DOM Lifecycle:}}\\
+	\textbf{3 Zustände:}\\
+	\textbf{loading:} Dokument wird geladen.\\
+	\textbf{interactive:} Dokument wurde geladen, bis auf gewisse Ressourcen. Durch Event \textcolor{b}{DOMContentLoaded} repräsentiert\\
+	\textbf{complete:} Alle ressourcen wurden geladen. Event \textcolor{b}{load}
+\section{Simple Single Page Apps}
+	\textcolor{b}{\textbf{Form-Validation:}}
+\begin{lstlisting}[style=htmlcssjs]
+// Automatische Validierung abstellen mit:
+<form novalidate>
+function checkPwValidity(event) {
+	formElement.checkValidity();//Valid. explizit anstossen
+	if (!password1Element.validity.valid) //Not valid
+	event.preventDefault(); ErrElm.innerText = "Error" }
+	else {errElm.innerText = ""; } }
+formElement.addEventListener("submit", checkPwValidity);
+// Dirty JS:
+const setDirty = function (event) {
+	event.target.classList.add("dirty"); }
+password1Element.addEventListener("blur", setDirty);
+// Dirty CSS:
+input.dirty:not(:focus):invalid {...}
+input.dirty:not(:focus):valid {...}
+\end{lstlisting}
+\subsection{Konzept MVC (Model, View, Control)}
+\begin{minipage}{0.48\linewidth}
+	\includegraphics{mvc.png}
+\end{minipage}
+\begin{minipage}{0.48\linewidth}
+	\textbf{Model:}\\
+	Data Model (App State), Business Logic\\
+	\textbf{View:}\\
+	Anzeige/DOM\\
+	\textbf{Controller:}\\
+	User Input (Event Handler), View-Wechsel
+\end{minipage}
+\section{HTTP/Client-Server Interaction}
+	HTTP = Hyper Text Transfer Protocol\\
+	\textcolor{b}{\textbf{HTTP Request:}}\\
+	Method, Address (URL Path), Protocol Version, Request Headers, Header/Body Seperator, Request Body\\
+	\textcolor{b}{\textbf{GET Method:}}\\
+	Um Informationen abzurufen. Daten in URL\\
+	\textcolor{b}{\textbf{POST Method:}}\\
+	Um Daten zu senden. Mit HTML Forms (in Request Body)\\
+	\textcolor{b}{\textbf{HTTP Response:}}\\
+	Protocol Version, Status Code, Response Headers, Header/Body Seperator, response Body (returning HTML Code)\\
+	\textcolor{b}{\textbf{Status Codes:}} \textbf{1xx:} Informational \textbf{2xx:} Successfull (\textcolor{b}{200} OK, \textcolor{b}{201} Created, \textcolor{b}{204} No content) \textbf{3xx:} Redirection (\textcolor{b}{301} Moved Permanently) \textbf{4xx:} Client Error (\textcolor{b}{400} Bad Request, \textcolor{b}{401} Unauthorized, \textcolor{b}{403} Forbidden, \textcolor{b}{404} Not Found) \textbf{5xx:} Server Error (\textcolor{b}{500} Internal Server Error, \textcolor{b}{505} HTTP Version Not Supported) \textbf{9xx:} Non-Standard Codes\\
+	\textcolor{b}{\textbf{Informationsaustausch über URL:}}\\
+	http://www.example.com:80/path/to/myfile.html?\\
+	key1=value1\&key2=value2\#SomewhereInTheDocument\\
+	\textbf{1. Protokoll} http, https, file, mailto, tel\\
+	\textbf{2. Domain Name} oder direkt ip-Adresse\\
+	\textbf{3. Port} Defaults: http=80, https=443\\
+	\textbf{4. Pfad} Eher logischer Pfad zu Ressource\\
+	\textbf{5. Parameter} Query startet mit ?, getrennt mit \&\\
+	\textbf{6. Anker} wird nicht an Server geschickt\\
+	\textcolor{b}{\textbf{Node.JS:}}
+\begin{lstlisting}[style=htmlcssjs]
+const http = require("http");
+const url = require("url");
+const PORT = 8080;
+function requestHandler(req, res) {
+	if (req.url === "/favicon.ico") { res.end(); return } //don't server favicon.ico
+	res.write("<h1>Hello ");
+	res.end("World</h1>"); }
+const server = http.createServer(requestHandler);
+server.listen(8080, () =>
+	console.log('Node listening on Port', PORT));
+\end{lstlisting}
+\section{AJAX}
+%	\textbf{S-MVAC:} Synchronized Model View Async Controller\\
+%	\includegraphics{ajax.png}
+	\textcolor{b}{\textbf{Layering}}\\
+	$\rightarrow$ Obere Layer nutzen untere. Die unteren nutzen nie statische Komponenten (Funktionen, Klassen) der oberen.\\
+	$\rightarrow$ Rückmeldung von unteren Layern ab obere durch: \textcolor{b}{Synchron} (Return Werte von Aufrufen), \textcolor{b}{Asynchron} (Callbacks)\\
+	\textcolor{b}{\textbf{Warum Layering?}}\\
+	Layer ist unabhängig von oberen Layern \textbf{testbar}. Layer stellen nach Oben API zur Verfügung. Wiederverwendbarer Code.\\
+	\textcolor{b}{\textbf{MVC Ergänzung:}}\\
+	\textbf{updateView:} Nur diese Funktion greift auf DOM zu.\\
+	\textbf{Controller:} Funktionen nutzen Variablen mit View-Referenzen, um Inhalte zu lesen und Variablen zu aktualisieren\\
+	\textbf{Modell:} Status und Inhalte in Variablen. Ist passiv und synchronisiert (AJAX)\\
+	\textcolor{b}{\textbf{Herausforderungen bei AJAX Single Page Apps:}}\\
+	\textcolor{b}{- Layering:} ok\\
+	\textcolor{b}{- Langsamer API Service:}\\
+	\textbf{Abhilfe:} Nach Auslösen der Anfrage: View geht in \textcolor{b}{Suspense Status}, \textcolor{b}{Disable} der entsprechenden UI-Controls, \textcolor{b}{Feedback}, dass die Anfrage läuft, allfällig vorherige Werte entfernen\\
+	\textcolor{b}{- Unzuverlässiger API Service:}\\
+	\textbf{Abhilfe:} Bei Fehlerhaften Antworten (not «ok»)	\textcolor{b}{Request wiederholen} (retry). \textcolor{b}{Zeitlimit} (Timeout) setzen und nachher Anfrage abbrechen\\
+	\textcolor{b}{- Langsamer API Servi bei kontinuierlicher Nutzerinteraktion:}\\
+	\textbf{Abhilfe:} \textcolor{b}{Debouncing/Throttling} $\rightarrow$ nach jedem Tastendruck kurz (200ms) warten. Request \textcolor{b}{Ersetzen} (aktuellen abbrechen)\\
+	\textcolor{b}{- Server-Updates an Clients verteilen (Server Push):}\\
+	\textbf{Abhilfe:} \textcolor{b}{Polling:} Im Hintergrund wird wiederholt der Server für neue Information angefragt. \textcolor{b}{WebSockets:} Es wird eine zweiseitige Verbindung mit dem Server aufgebaut.\\
+	\textcolor{b}{- HTML Injection/Cross Site Scripting (XSS):}\\
+	\textbf{Abhilfe:} \textcolor{b}{Server:} Säuberung von erhaltenen Inhalten, Conten Security Policy (CSP). \textcolor{b}{Säuberung im Client:} Bei Einfügen von externen Inhalten.
+\subsection{AJAX Grundlagen}
+\begin{lstlisting}[style=htmlcssjs]
+// Promise Grundaufbau:
+const promise = new Promise((resolve, reject) => {
+	if(...) {resolve("Seccess")} else {reject("Error")} });
+promise.then((value) => {console.log("ok" + value);})
+	.catch((value) => {console.log("Error" + value); });
+// Callback Functions: (Funktion mit Funktion als Param)
+let x = function () {console.log("Callback"); }
+let y = function (TestCallbackFn) {
+	console.log("first"); TestCallbackFn(); }
+y(x);
+// Callback mit Promise:
+function promisedWait() {
+	return new Promise((resolve, reject) => {x() => {resolve(), reject()} } )}
+promisedWait.then(..).catch(..);
+\end{lstlisting}
+	\textcolor{b}{\textbf{Promises:}}\\
+	Ist ein Objekt mit zwei Callback-Funktionen: resolve, reject
+	\textcolor{b}{\textbf{Async/Await:}}\\
+	Async bezeichnet eine Funktion, die im Hintergrund weiterlaufen kann. $\rightarrow$ Verwendet, um Fetch (return Promise) abzuwarten (mittels await)\\
+	\textcolor{b}{\textbf{Fetch:}}\\
+	Ermöglicht das Ansprechen von Web-Resourcen im Browser mittels JS. Asynchron (wie setTimeout), aber statt Callback-Funktion als Argument. Return eines Promise
+\begin{lstlisting}[style=htmlcssjs]
+// Einfacher Request (then, catch)
+fetch(API_URL).then((response) => {
+	if (response.ok) {return response.json();}
+	else {return Promise.reject();} })
+.then((data) => {console.log('thenData', data); })
+.catch((error) => console.log('thenError'))
+// Einfacher Request (await, try/catch)
+async function test () {try {
+	const response = await fetch(API_URL);
+	const data = await response.json();
+	console.log('awaitData', data);
+}catch{console.log('thenError'); }}
+//Abortable Fetch
+const controller = new AbortController();
+const signal = controller.signal;
+setTimeout(() => controller.abort(), 5000);
+fetch(url, {signal}).then(response => {
+	return response.text();
+}).then(text => {console.log(text); });
+\end{lstlisting}
+	\textcolor{b}{\textbf{Revealing Module Pattern:}}\\
+	Nur die extern wichtigen Variablen und Funktionen exportieren
+\begin{lstlisting}[style=htmlcssjs]
+(function () {
+let hiddenCounter = 0;
+function getCounter () {return hiddenCounter;}
+function incCounter () {return ++hiddenCounter;}
+// export
+window.counterService = {getCounter, incCounter}; })()
+\end{lstlisting}
+	\textcolor{b}{\textbf{ES6 Modules:}}\\
+	Moderne Variante für Modularisierung in JavaScript.
+\begin{lstlisting}[style=htmlcssjs]
+var hiddenVarVar = "VarVar";
+let hiddenCounter = 0;
+export function getCounter() {return hiddenCounter;}
+export function incCounter() {return ++hiddenCounter;}
+//In other File:
+<script src="ServiceES6.js" type="module"></script>
+<script type="module">
+	import {getCounter, incCounter} from './ServiceES6.js';
+</script>
+\end{lstlisting}
+	\textcolor{b}{\textbf{Fetch Alternativen:}}\\
+	XMLHttpRequest API, JQuery, Axios\\
+	\textcolor{b}{\textbf{Same Origin Policy (SOP):}}\\
+	Server können in ihrer Antwort an den Browser anzeigen ob sie eine Anfrage von dieser "Origin" (URL der Seite) zulassen wollen.\\
+	Wenn der Server in der Antwort keine Information zur Access-Control-Allow-Origin mitschickt	gilt die Same-Origin-Policy.	D.h. es dürfen sich nur Seiten verbinden, die auch von diesem Server geservt wurden.\\
+	\textcolor{b}{\textbf{Cross Origin Resource Sharing (CORS):}}\\
+	Wenn ein Server einer anderen Origin kontaktiert wird (nicht SOP), muss dieser im Header der Antwort das Feld Access-Control-Allow-Origin auf die Origin des Browsers	gesetzt haben (oder auf *).\\
+	$\rightarrow$ Nur dann darf der Browser die	Antwort entgegennehmen.
+\section{REST (Representational State Transfer)}
+	REST is a software architecture style consisting of guidelines and best practices for creating scalable web	services.\\
+	\textbf{Vor REST}: Viele verschiedene Standards. Schlechte Interoperabilität. Rad wurde immer wieder neu erfunden. Vendor lock-in\\
+	\textcolor{b}{\textbf{Eigenschaften:}}\\
+	\textbf{Client/Server:} Trennung von Client- und Server-Logik\\
+	\textbf{Statuslose Kommunikation:} Jeder request beinhaltet alle möglichen Informationen\\
+	\textbf{Cache'bar:} Clients können antworten zwischenspeichern. Sofern dies erlaubt wurde\\
+	\textbf{Layered System:} Erlaubt Einsatz von Schichtenarchitekturen inkl. Load-Balancers, Proxies und Firewalls\\
+	\textbf{Uniform Interface:} Einheitliche Schnittstelle zw. Client \& Server (Selbstbeschreibend)\\
+	\textcolor{b}{ROA: Standardmethoden}\\
+	\textbf{GET:} Ressource wird angefordert\\
+	\textbf{POST:} Erzeugt neue Ressource\\
+	\textbf{PUT:} Aktualisiert/erzeugt eine Ressource\\
+	\textbf{DELETE:} Löscht eine Ressource\\
+	\textbf{OPTIONS:} Gibt an, wie die Ressource verwendet werden darf (HTTP-Methoden)\\
+	\textbf{PATCH:} Partielles updaten einer Ressource\\
+	\textbf{HEAD:} Gleich wie GET, jedoch ohne Ressource zu erhalten (Für Caching)\\
+	\textcolor{b}{\textbf{HATEOAS:}}\\
+	$\rightarrow$ Hypermedia As The Engine OF Application State
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Prozessgedanke in der Ressource
+		\item Media-Typen beschreiben die Ressource
+		\item Aktionen werden ausgeführt beim folgen von Links
+		\item Jede Antwort beinhaltet den "Application State"
+		\item Selbstbeschreibende API’s erzeugen Flexibilität
+		\item Clients können die API "erforschen" ohne Dokumentation und Anleitung
+	\end{itemize}
+	\textbf{Vorteile:}Inline Dokumentation, Exportable API, Einfachere Clients, die URI ist sicher korrekt und aktuell, URI kann, falls gewollt, Serverseitig einfach geändert werden.\\
+	\textbf{Nachteil:} (Sehr) aufwändig auf der Server-Seite
+\section{USER EXPERIENCE (UX)}
+	\textcolor{b}{\textbf{Design Probleme:}}
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Schlechte Führung des Auges $\rightarrow$ Optionen schwierig zu unterscheiden, Fehlende Grupierung/visuelle Unterscheidung
+		\item Schlechte $"$Affordances$"$ (Greifbarkeit)
+		\item Fehlende Constraints
+		\item Fehlendes Undo
+	\end{itemize}
+	\textcolor{b}{\textbf{Techniken zur Aufgenführung:}}\\
+	Standardreihenfolge: Oben $\rightarrow$ Unten, Links $\rightarrow$ Rechts\\
+	Eye Catcher helfen die Standardreihenfolge zu verändern:
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item helle Elemente $\rightarrow$ dunkle
+		\item Einzelnes $\rightarrow$ Gruppe
+		\item Grafik $\rightarrow$ Text
+		\item Farbe $\rightarrow$ Schwarz-Weiss
+		\item satte Farben $\rightarrow$ unsatte
+		\item dunkle Flächen $\rightarrow$ helle
+		\item gross $\rightarrow$ klein
+		\item ungewohnt $\rightarrow$ gewohnt
+		\item Bewegung
+		\item Augen \& Blickrichtung
+		\item Gesichter \& Mimik
+	\end{itemize}
+	\textcolor{b}{\textbf{Gutes Interaktionsdesign:}}\\
+	zeigt den aktuellen \textbf{Zustand} des Systems, zeigt dem Nutzer \textbf{Möglichkeiten} der Interaktion, spricht die \textbf{Sprache} der Nutzer, begleitet den Nutzer \textbf{Schritt für Schritt} zum Ziel.\\
+	\textcolor{b}{\textbf{Interaktionselemente Controls:}}\\
+	Sichtbar, wahrgenommen, zielführend, genutzt\\
+	\textcolor{b}{\textbf{Touch Targets:}}\\
+	Should be at least 1cm$^{2}$. Best: 0.9cm + 0.2cm padding\\
+	$\rightarrow$ More space needed when used in stressful situations\\
+	\textcolor{b}{\textbf{Benutzerführung:}}\\
+	Constraints, Confirmation, Undo\\
+	Professionelle Entwickler erwarten vom (bzw. entwickeln mit dem) $"$UX Team$"$ (+ Product Management):
+	\begin{itemize}[topsep=0pt, leftmargin=3mm]
+		\setlength\itemsep{-0.3em}
+		\item Styleguide/Design System
+		\item Site/App Design
+		\item Nutzungs-Szenarien mit Benutzerprofilen ($"$Personas$"$)
+		\item Usability Tests (aussagekräftig, früh genug, gut kommuniziert)
+	\end{itemize}
+	\textcolor{b}{\textbf{Visuelles Design:}}\\
+	Farbblindheit, Fehlender Kontrast, gewisse Farbkombinationen (z.B. \textcolor{red}{BLAU} auf \textcolor{b}{ROT})
+\section{Handlebars}
+\begin{lstlisting}[style=htmlcssjs]
+<script id="template" type="text/x-handlebars-template">
+	<ul> {{#each this}} <li> <h3> {{rating}}
+	<button data-delta="1" data-song-id="{{id}}">+</button>
+	<button data-delta="-1"data-song-id="{{id}}">-</button>
+	{{title}} </h3> <p>{{artist}}</p> </li> {{/each}} </ul>
+</script>
+// Template erstellen
+const templateSource = document.getElementById("template").innerHTML;
+const template = Handlebars.compile(templateSource);
+//Template-Function kann aufgerufen werden:
+container.innerHTML = template(anyObject or function());
+\end{lstlisting}
+\section{Countdown mit Callback}
+\begin{lstlisting}[style=htmlcssjs]
+function StartCountdown(startValue, fnTick, fnFinish) {
+	let currentValue = startValue;
+	function countDown() {
+		if (currentValue > 0) {
+			setTimeout(() => {
+				fnTick(--currentValue);
+				countDown(currentValue)
+			}, 1000)
+		} else {fnFinish(startValue) } }
+	countDown(); }
+\end{lstlisting}
+\includegraphics[width=0.7\linewidth]{spezifitaet.png}
+\end{multicols*}
+\end{document}
