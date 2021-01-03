@@ -14,3 +14,57 @@
 % - Npm package.json Informationen (Dependencies und Scripts) erklären und ensprechend Instruktionen anpassen.
 
 \section{Node JS}
+\textbf{\textcolor{blue}{Was muss ein Webserver können?}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item HTTP Anfragen annehmen
+    \item Actions ausführen basierend auf der Anfrage URL
+    \item HTTP Antworten absenden
+\end{itemize}
+\textbf{\textcolor{blue}{Request:}} Methoden GET, PUT, POST, ...\\
+\textbf{\textcolor{blue}{Response:}} Methoden writeHead, setHeader, statusCode, statusMessage, write, end
+\begin{lstlisting}[style=htmlcssjs]
+response.writeHead(200, {'Content-Length': body.length,'Content-Type': 'text/plain'});
+response.setHeader("Content-Type", "text/html");
+response.statusCode = 404;
+response.statusMessage = 'Not found';
+response.write("Data");
+response.end("Data");
+\end{lstlisting}
+\textbf{\textcolor{blue}{Module:}}\\
+Node verwendet für die Module Verwaltung npm.\\
+\textbf{Import/Export}
+\begin{lstlisting}[style=htmlcssjs]
+export router; // Variable
+import router from "./file.js";
+export {function, otherFunction}; // several Functions
+import controller from './controller.js';
+export const noteService = new NoteService(); // Class
+import {noteService} from "./noteServices.js";
+import express from "express"; // ES6
+\end{lstlisting}
+\textbf{\textcolor{blue}{package.json:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Beinhaltet die Informationen zum Projekt
+    \item Wird benötigt um es zu publishen
+    \item Wird benötigt um Module zu installieren
+    \item Definiert Skripts (bsp: npm run test)
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+{ "name": "my_package",
+"description": "",
+"version": "1.0.0",
+"main": "index.js",
+"scripts": {
+"test": "echo \"Error: no test specified\" && exit 1" },
+"repository": {
+"type": "git",
+"url": "https://github.com/mgfeller/my_package.git" },
+"keywords": [],
+"author": "",
+"license": "ISC",
+"bugs": {
+"url": "https://github.com/mgfeller/my_package/issues" },
+"homepage": "https://github.com/mgfeller/my_package"
+\end{lstlisting}

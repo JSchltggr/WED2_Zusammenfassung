@@ -22,3 +22,130 @@
 %• … erklären in welchen Situationen sich die Nutzung Web-Sockets anbietet.
 %• ... die res.render Methode in Kombination mit der HandleBars Template-Engine einsetzen
 %(Datenübergabe über das Context-Objekt im Aufruf der render-Funktion sowie über res.locals)
+\textbf{\textcolor{blue}{Server starten:}}
+\begin{lstlisting}[style=htmlcssjs]
+import http from "http";
+import express from "express";
+const app = express();
+const server = http.createServer(app);
+const hostname = '127.0.0.1'; const port = '3000';
+server.listen(port, hostname, () => {
+  console.log('Running at http://${hostname}:${port}/');
+});
+\end{lstlisting}
+\textbf{\textcolor{blue}{JSON (JavaScript Object Notation):}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Ist ein Daten-Austauschformat
+    \item Wird verwendet um Daten zu senden und speichern
+    \item Hat im Web XML verdrängt
+    \item Wird oft mit AJAX verwendet
+    \item Datentypen: String, Number, Boolean, Array, Object, null
+    \item JSON-Helper: JSON.parse \& JSON.stringify
+\end{itemize}
+\textbf{\textcolor{blue}{MVC-Pattern:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Model: Daten und Datenaufbereitung
+    \item Controller: Verknüpft die View mit den Daten
+    \item View: Darstellen der daten
+\end{itemize}
+\textbf{\textcolor{blue}{Middleware:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Wird für Request Bearbeitung gebraucht
+    \item Middleware ist ein Stack von Anweisungen welche für einen Request ausgeführt wird
+    \item Neue Middleware registrieren mit: app.use(..);
+\end{itemize}
+\subsection{Routing}
+\textbf{\textcolor{blue}{Router-Middleware:}}
+\begin{lstlisting}[style=htmlcssjs]
+// Middleware befindet sich auf dem Express Objekt
+import express from "express";
+const router = express.Router;
+// HTTP Methoden (get, put, post, delete)
+router.get('/', function(req, res) {
+    res.send('hello world'); });
+// Mehrere Methoden auf selbem Link mit .route
+app.route('/book') // oder router.route(..)
+    .get(function(req, res) {res.send('Get a book');})
+    .post(function(req, res) {res.send('Add a book');})
+\end{lstlisting}
+\textbf{\textcolor{blue}{BodyParser-Middleware:}}
+\begin{lstlisting}[style=htmlcssjs]
+import bodyParser from "body-parser";
+app.use(bodyParser.json());
+\end{lstlisting}
+\textbf{\textcolor{blue}{Static-Middleware:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Aufgabe: Statische Files ausliefern
+    \item Nutzen wie folgt:\\
+    app.use(express.static($\_$$\_$dirname + '/public'));\\
+    app.use(express.static(path.join(path.resolve(), 'public')));
+    \item Es sind mehrere static-routes möglich
+\end{itemize}
+\textbf{\textcolor{blue}{Custom-Middleware:}}\\
+Hat 3 Parameter: request, response, next
+\begin{lstlisting}[style=htmlcssjs]
+function myDummyLogger( options ){
+    options = options ? options : {};
+    return function myInnerDummyLogger(req, res, next) {
+        console.log(req.method +":"+ req.url);
+        next(); } }
+app.use(myDummyLogger());
+\end{lstlisting}
+\textbf{\textcolor{blue}{Error-Middleware:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Bearbeitet Errors, welche von Middlewares generiert werden
+    \item Hat 4 Parameter: error, request, response \& next
+    \item Sollte als letzte Middleware registriert werden
+    \item Wird aufgerufen, falls ein error-Objekt dem Next-Callback übergeben wird.
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!'); });
+\end{lstlisting}
+\subsection{Model}
+\textbf{Ziel:} Die Daten sollten in einem Module verwaltet und abgespeichert werden. Möglichkeiten: In Memory (array), JSON, NoSQL-Datenbanken (nedb), Sql-Datenbanken, Oracle-datenbank.
+\begin{lstlisting}[style=htmlcssjs]
+// beispiel: nedb
+import Datastore from "nedb";
+const db = new Datastore({ filename: './data/order.db', autoload: true });
+// insert
+db.insert(order, function(err, newDoc) {
+    if(callback) {
+        callback(err, newDoc); } });
+// search: findOne oder findAll
+db.findOne({ _id: id }, function (err, doc) {
+    callback( err, doc); });
+// update
+db.update({_id: id}, {$set: {"state": "DELETED"}}, {}, function (err, doc) {
+    publicGet(id,callback); });
+\end{lstlisting}
+\subsection{View}
+\textbf{Ziel:} Trennen von Controller und View mittels \textcolor{blue}{Template Engine}. Express bietet eine render Methode an: app.render(view, [locals], callback);
+\begin{lstlisting}[style=htmlcssjs]
+// view engine setup
+app.set('views', path.join(path.resolve(), 'views'));
+app.set('view engine', 'hbs');
+\end{lstlisting}
+\subsection{Session \& Security}
+\textbf{\textcolor{blue}{Session:}}\\
+Beim ersten \dq Connect\dq vom Client wird eine Session-Id erstellt und als Cookie zum Client geschickt. Die Session-Daten werden auf dem Server abgespeichert. $\rightarrow$ Wiederspricht REST\\
+\textbf{Nutzen:} HTTP-Stateless umgehen und z.B. Login Status von user abspeichern, oder allgemein Daten Server-Seitig einem Benutzer zuordnen. Ermöglicht tracking.
+\begin{lstlisting}[style=htmlcssjs]
+// Cookie verwenden:
+app.use(require("cookie-parser")());
+// Session benötigt Cookies
+app.use(session({ secret: ‚'1234567', resave: false, saveUninitialized: true}));
+\end{lstlisting}
+\subsection{Rest \& Ajax}
+\textbf{\textcolor{blue}{Token:}}\\
+\textbf{Ziel:} Stateless Server. \textbf{Idee: Bei jeder Anfrage muss für die Authorisierung ein Token mitgegeben werden.} \textbf{Vorteil:} Jede Anfrage kann zu einem beliebigem Server gesendet werden. \textbf{Nachteile:} Was passiert wenn der Token geklaut wird? $\rightarrow$ Ablaufdatum kurz setzen, Token invalidieren.\\
+\textbf{\textcolor{blue}{JWT-Token:}} import jwt from 'express-jwt';
+\subsection{Web Sockets}
+Das klassische Model vom Request-Response hat 2 Probleme: Der Server kann keine Nachricht an den Client schicken. Jede Anfrage öffnet eine neue Verbindung.\\
+Dieses Model erschwert es real-time Apps zu machen (Games, Chats). Lösung: WebSockets ermöglichen \dq bi-directional\dq, \dq always-on\dq Kommunikation.
