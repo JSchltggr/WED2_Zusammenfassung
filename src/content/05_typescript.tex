@@ -10,3 +10,148 @@
 % - TypeScript Klassendefinitionen lesen und in entsprechende Klassendefinitionen in EcmaScript-2015+ (ES6+) konvertieren.
 % - können den Unterschied von Klassen und Interfaces (und Typen) und das Konzept des “Structural Typing“ in TypeScript erklären.
 % - können das Konzept von Union-Types erklären und in Beispielen nutzen.
+
+\textbf{\textcolor{blue}{Variablendeklarationen mit Basistypen:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Variablen können Typdeklaration erhalten. Ohne Typdeklaration wird die \dq Type-Inferenz\dq verwendet.
+    \item Variablen können explizit als \textcolor{blue}{any} deklariert werden. $\rightarrow$ Beliebige Werte dürfen zugewiesen werden. Entsprechend geht auch die Zuweisung an jede andere Variable.
+    \item Globale Variablen aus nicht TS-Files können mit dem Keyword \textcolor{blue}{declare} deklariert werden.
+    \item Basis-Typen: \textbf{boolean, number, string, null, undefined}
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+// Beispiele
+let myAnyVar1: any = 1;
+let myInferredNumVar1 = 1;
+let myNumberVar: number = 1;
+let myStringVar: string = 'cdef';
+declare let myMagicVar: string;
+// allowed
+myAnyVar1 = 'hi';
+myNumberVar = myAnyVar1; // might come as surprise
+// not allowed
+myInferedNumVar1 = 'hi';
+myStringVar = myInferedNumVar1;
+myStringVar = 1;
+myNumberVar = 'hi';
+\end{lstlisting}
+\textbf{\textcolor{blue}{Variablendeklarationen mit komplexen Typen:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Typescript erlaubt die Deklaration von \textbf{Arrays, Tupels und Enums}
+    \item Bei Tupeln wird keine Type-Inferenz angewendet
+    \item Enums können wie Basistypen genutzt werden
+    \item Default-Repräsentation: Integers (Strings möglich)
+    \item Alternative: String Literal Type
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+// Beispiele
+let myInferredNumArray = [1, 2, 3];
+let myNotInferredTupel = [1, 'abcd'];
+let myNumArray: number[] = [1, 2, 3];
+let myTupel: [number, string] = [1, 'abcd']
+enum Color {Red, Green, Blue};
+enum StrColor {Red = "red", Green = "green"};
+type StrLitColor = "red" | "green";
+let c: Color = Color.Green;
+let myTupel2: [Color, number] = [Color.Green, 1];
+// allowed
+myNotInferredTupel[0] = 2;
+myNotInferredTupel[1] = 2; // not inferred
+myTupel[1]='hi';
+//not allowed
+myInferredNumArray[2] = 'hi';
+myInferredNumArray[4] = 'hi';
+myTupel[0]= 'hi';
+myTupel[1]= 2;
+\end{lstlisting}
+\textbf{\textcolor{blue}{Funktionsdeklarationen:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Spezifizierbar: Typen der Parameter + Typ des Rückgabewertes
+    \item Mehr als eine erlaubte Signatur pro Funktion möglich !
+    \item Funktionsparameter können optional sein (? direkt nach dem Namen der Variablen )
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+// Beispiele
+function add(s1: string, s2: string): string;
+function add(n1: number, n2: number): number;
+function add(n1, n2) {
+    return n1 + n2; }
+function combineFunction(sn: number | string = "", ns?: number): string {
+    return String(sn) + String(ns || ""); }
+// allowed
+let myNum: number = add(1, 2);
+combineFunction(1);
+combineFunction('hi', 3);
+// not allowed
+let myStr: string = add(1, 2);
+let myNum: number = add("kk", 2);
+combineFunction(1, 'hi');
+\end{lstlisting}
+\textbf{\textcolor{blue}{Funktionen als Parameter:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Funktionsparameter können Funktionen sein
+    \item Signatur dieser Parameter kann auch deklariert werden
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+// Beispiele
+function numberApplicator(numArray: number[],numFun: (prevRes: number, current: number) =>number): number{
+    return numArray.reduce(numFun); }
+function concatFunction(s1: string, s2: string): string {
+    return s1 + s2; }
+// allowed
+let myNum2: number = numberApplicator([1, 2, 3, 4], add);
+// not allowed
+numberApplicator([1, 2, 3, 4], concatFunction);
+\end{lstlisting}
+\textbf{\textcolor{blue}{Klassen:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Properties der Instanzen und der Klasse (Static) werden im Kontext der Klasse definiert.
+    \item Methoden und Properties können mit den Zusätzen "private" und "readonly" versehen werden.
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+class Counter {
+  private _doors: number;
+  public static readonly WOOD_FACTORS = {'oak': 80, 'pine': 20};
+// public static readonly MIN_DOOR_COUNT = // code
+  constructor({doors = 2}: {doors?: number} = {}) {
+    this.doors = doors; }
+  set doors(newDoorCount: number) {
+    if (newDoorCount >= Counter.MIN_DOOR_COUNT && newDoorCount <= Counter.MAX_DOOR_COUNT) {
+      this._doors = newDoorCount; }
+    else { throw `Counter can only have ... `; }
+  }
+  get doors() {
+    return this._doors; } }
+\end{lstlisting}
+\textbf{\textcolor{blue}{Interfaces:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Interfaces (Typen) können in Deklaration von Klassen genutzt werden: Eine Klasse darf mehr als ein Interface implementieren
+    \item Sie können in Deklaration von Variablen und Funktionsparametern genutzt werden: Casting ist möglich und Structural-Typing (“Duck-Typing“) wird von TypeScript unterstützt.
+\end{itemize}
+\begin{lstlisting}[style=htmlcssjs]
+interface IPoint {
+  readonly x: number; readonly y: number; }
+interface ILikableItem { likes?: number; }
+class DescribableItem {
+  constructor(public description: string){} }
+class PointOfInterest extends DescribableItem implements IPoint, ILikableItem {
+  constructor(public x: number, public y: number, description: string, public likes?:number) {
+    super(description); } }
+// Allowed
+let p: IPoint = new PointOfInterest(1, 2, "home");
+let p2: PointOfInterest = p as PointOfInterest;
+p2.description = "hi";
+let p3: IPoint = {x: 3, y: 4}; // duck-typing
+let p4: any = p3;
+p4.description = "hi" // any can set anything
+let p5: PointOfInterest = p3 as PointOfInterest;
+p5.description = "hi";
+// Not allowed
+p.description; // error: Property description dies not exist on type IPoint
+\end{lstlisting}
+
