@@ -13,3 +13,42 @@
         %- Replay Attacken
 % - beurteilen und begründen ob es Sinn macht für eine Anwendung einen passwortbasierten «Authentication Service» selber zu betreiben.
 % - wichtige generelle Sicherheitsmassnahmen für Node/Express Anwendungen aufzählen, erklären und deren Fehlen im Code einfacher Express-Anwendungen identifizieren und beheben.
+\textbf{\textcolor{blue}{XSS (Cross-Site Scripting):}}\\
+\textbf{Definition:} Den Server so manipulieren, dass Schadcode (JavaScript) an Nutzer (Opfer) ausgeliefert wird und im Browser dieser Nutzer ausgeführt wird.\\
+\textbf{Gegenmassnehmen:}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item XSS oder DOMPurify Library
+    \item \dq Encoding\dq bei der Darstellung (Output) von Nutzer-Input
+    \item Content Security Policy (CSP) im Header setzen
+    \item Bei Cookies soweit möglich das HTTPOnly Flag setzen
+\end{itemize}
+\textbf{\textcolor{blue}{Code-Injection/Remote Code Execution:}}\\
+\textbf{Definition:} Den Server dazu bringen, dass eingeschleuster Code ausgeführt wird.\\
+\textbf{Gegenmassnehmen:}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item NICHT \textcolor{blue}{eval()}, sondern \textcolor{blue}{parseInt(), JSON.parse()} nutzen
+    \item Globale Scopes und Variablen reduzieren.
+    \item Rechenintensive Tasks mit childprocess.spawn auslagern, um (D)DOS Attacken zu erschweren
+    \item Node NICHT als root Prozess starten
+\end{itemize}
+\textbf{\textcolor{blue}{Stored Broken Authentication:}}\\
+\textbf{Ziel:} Bereiche eines Web-Sites mit benutzer-spezifischen Informationen sollten nur für authentisierte Nutzer zugreifbar sein.\\
+\textbf{Gegenmassnehmen:}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Keine geheimen Informationen in query-parametern
+    \item https (TLS) nutzen
+    \item Authentication-Service nutzen
+    \item Session Timeout sinnvoll setzen
+    \item Formulare beim Ausliefern mit einem Token versehen
+\end{itemize}
+\textbf{\textcolor{blue}{Stored Broken Access Control:}}
+\textbf{Ziel:} Bereiche eines Web-Sites mit benutzer-spezifischen Informationen sollten nur für autorisierte Nutzer zugreifbar sein (read)\\
+\textbf{Gegenmassnehmen:}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Sicher stellen,dass der eingeloggte Nutzer berechtigt ist.
+    \item Token mit einmaliger Gültigkeit
+\end{itemize}
