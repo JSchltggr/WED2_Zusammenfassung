@@ -1,6 +1,8 @@
 %! Author = joels
 %! Date = 03/01/2021
 
+\section{Dev-Ops}
+
 % Studierende können …
 % - die Aufgabe und den Einsatzbereich von (CSS) Präprozessoren erklären.
 % - Sass (SCSS) Code interpretieren (inkl. Variablen, Nesting, Mixing, Partials und Funktionen) und den aus Sass/SCSS Code den zugehörigen CSS Code generieren.
@@ -10,4 +12,37 @@
 % - erklären in welchen Kontexten es sinnvoll ist Web-Build-Tools einzusetzen und zwei spezifische Features dieser Build Tools nennen.
 % - die in der Vorlesung behandelten Präprozessoren, Testing Tools, Build-Tools etc. der korrekten Kategorie zuordnen.
 
-\section{Dev-Ops}
+\textbf{\textcolor{blue}{Vorteile/Möglichkeiten von CSS Präprozessoren:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item Sind nicht an Limitationen von CSS gebunden
+    \item Ermöglichen SE Prinzipien in CSS anzuwenden
+    \item Weniger Copy Paste, Modularisierung, Wiederverwenden von Funktionalitäten
+\end{itemize}
+\textbf{\textcolor{blue}{Sass/SCSS Features:}}
+\begin{lstlisting}[style=htmlcssjs]
+// Variablen:
+$purpele-navy: #635380; $main-bg-color: $purpele-navy;
+body { background: $main-bg-color; }
+// Verschachtelung/Nesting
+nav { // auch mit > möglich, & für Eltern-Element
+  ul { list-style: none; }
+  li { display: inline-block; }
+  a { display: block; } }
+// Partials/Import separates file: _constatns.scss
+@import 'constants'; // direkter Import
+@use 'constants'; // definiert Namespace
+// Mixins (Snippet-Wiederverwendung mittels include
+@mixin visuallyhidden() { code }
+.elem {@include visuallyhidden;}//mehrere include möglich
+// Mixin mit Parametern
+@mixin border-radius($radius: 1em) { // default Wert
+    border-radius: $radius }
+.box { #include border-radius(1rem); }
+// Extends (Vererbung)
+.icon { /* code */ } // Basisklasse
+.error-icon { @extend .icon; /* specific code */ }
+// Extends (Abstract Class)
+%icon { /* code */ } // Keine CSS Regel für .icon
+.info-icon { @extend %icon; /* code */ }
+\end{lstlisting}
