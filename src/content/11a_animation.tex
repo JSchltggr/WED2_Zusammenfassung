@@ -11,3 +11,34 @@
 % - erklären warum es nötig sein kann ein mit einer @property Definition einen Wertebereich für CSSCustom Property zu definieren.
 % - erklären warum die Animation des opacity-Properties gut geeignet ist für Fade-In und Fade-Out Animationen, aber zusätzliche Vorkehrungen getroffen werden müssen um die Accessibility sicher zu stellen.
 % - erklären warum CSS-Animationen JS-basierten Animationen vorzuziehen sind.
+
+\textbf{\textcolor{blue}{Transition Properties:}}
+\begin{itemize}[topsep=0pt, leftmargin=3mm]
+    \setlength\itemsep{-0.3em}
+    \item \textbf{tranistion-property:} Welches CSS property geändert wird (z.B. background-color, all)
+    \item \textbf{tranistion-duration:} Dauer in s oder ms
+    \item \textbf{tranistion-timing-function:} Verhalten (ease, linear, ease-in, ease-out, ease-in-out, step-start, step-end, steps( ... ), cubic-bezier(\#,\#,\#,\#))
+    \item \textbf{tranistion-delay:} Delay in s oder ms
+    \item \textbf{transition: property duration timing-function delay}
+    \item \textbf{Mehrere Transition Properties:} Mit Komma getrennt
+    \item \textbf{transform:} Ändert die Form (rotate[X|Y](), translate[X|Y](), scale[X|Y](), skew[X|Y](), none)
+\end{itemize}
+\textbf{\textcolor{blue}{Keyframe Animation:}}\\
+Ablauf einer Animation kann definiert werden:\\
+$\rightarrow$ Nicht animierbar: border-style, display (weitere Elemente, die \dq value\dq benutzen)
+\begin{lstlisting}[style=htmlcssjs]
+@keyframes rainbow { // name: rainbow
+    0% { background-color: red; }
+    20% { background-color: orange; }
+    40% { background-color: yellow; }
+    60% { background-color: green; }
+    80% { background-color: blue; }
+    100% { background-color: purple;} }
+// keyframe benutzen:
+#magic {
+    animation-name: rainbow;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate; }
+\end{lstlisting}
