@@ -146,6 +146,18 @@ app.use(session({ secret: ‚'1234567', resave: false, saveUninitialized: true})
 \textbf{\textcolor{blue}{Token:}}\\
 \textbf{Ziel:} Stateless Server. \textbf{Idee: Bei jeder Anfrage muss für die Authorisierung ein Token mitgegeben werden.} \textbf{Vorteil:} Jede Anfrage kann zu einem beliebigem Server gesendet werden. \textbf{Nachteile:} Was passiert wenn der Token geklaut wird? $\rightarrow$ Ablaufdatum kurz setzen, Token invalidieren.\\
 \textbf{\textcolor{blue}{JWT-Token:}} import jwt from 'express-jwt';
+\begin{lstlisting}[style=htmlcssjs]
+// fetch
+fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({email: "a@b.ch", pwd: "123"})
+}).then(function (res) { console.log(res); });
+// Cookies werden nicht automatisch mitgeschickt
+fetch('https://example.com', {
+    credentials: 'include'
+});
+\end{lstlisting}
 \subsection{Web Sockets}
 Das klassische Model vom Request-Response hat 2 Probleme: Der Server kann keine Nachricht an den Client schicken. Jede Anfrage öffnet eine neue Verbindung.\\
 Dieses Model erschwert es real-time Apps zu machen (Games, Chats). Lösung: WebSockets ermöglichen \dq bi-directional\dq, \dq always-on\dq Kommunikation.
